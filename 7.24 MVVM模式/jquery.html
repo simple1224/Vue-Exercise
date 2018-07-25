@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ToDoList JQueryT</title>
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+</head>
+
+<body>
+    <div>
+        <input id="input" type="text">
+        <button id="btn">提交</button>
+        <ul id="list"></ul>
+    </div>
+
+    M V P : M表示模型层 一般是ajax来传输数据 V表示视图 在这里是div的全部内容 P表示控制层 在这里是下面的逻辑控制 通过DOM操作来改变视图
+    <script>
+        //使用面向对象的方法 
+        //创建一个构造函数
+        function Page() {
+
+        };
+        Page.prototype.init = function () {
+
+        };
+
+        //prototype指向原型对象
+        $.extend(Page.prototype, {
+            init: function () {
+                // console.log('init');
+                this.bindEvents()
+            },
+            bindEvents: function () {
+                // console.log('bindEvents');
+                var btn = $('#btn');
+                //proxy是改变this的指向
+                btn.on('click', $.proxy(this.handleBtnClick, this))
+            },
+            handleBtnClick: function () {
+                // console.log('handleBtnClick');
+                // alert('gdsgdksdh')
+                var inputElem = $('input');
+                var inputValue = inputElem.val();
+                var ulElem = $('#list');
+                ulElem.append('<li>' + inputValue + '</li>');
+                inputElem.val('')
+            }
+        })
+        var page = new Page();
+        page.init();
+    </script>
+
+</body>
+
+</html>
