@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ToDoList</title>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    
+   
+</head>
+<body>
+    <!-- 全局组件和局部组件 -->
+    <div id="root">
+        <!-- v-model:表示数据的双向绑定 input框的内容和inputValue双向绑定 -->
+        <input type="text" v-model="todoValue">
+        <!-- v-on:用于绑定事件  后面写事件的名称 -->
+        <button v-on:click="handleBtnClick">提交</button>
+        <ul>
+            <!-- <li v-for="item in list">{{item}}</li> -->
+            <!-- 用组件来代替上面代码 -->
+            <!-- item是list的值  再将item的值传入给content -->
+            <todo-item v-bind:content="item" v-for="item in list"></todo-item>  
+        </ul>
+    </div>
+
+    <script>
+        //全局组件  写组建时需要使用驼峰命名法  在使用时要用-连接
+        Vue.component("TodoItem",{
+            props:['content'],//props用来接收外部传入的content
+            // template:"<li>"+ this.content +"<li>" //模板表达式不可=可以这样写  必须用插值表达式的方式来写
+            template:"<li> {{content}} </li>    "
+        })
+        
+        //局部组件 定义时直接var就好了  但是需要在根挂载实例中注册
+        var TodoItem = {
+            props:['content'],
+            template:"<li> {{content}} </li>"
+        }
+
+        var app = new Vue({
+            el:'#root',
+            components: {
+                TodoItem : TodoItem
+            },
+            data:{
+                list:[],
+                todoValue:'',
+            },
+            methods: {
+                handleBtnClick : function(){
+                    this.list.push(this.todoValue)
+                    this.todoValue = '' //每一次输入后历史删除置空
+                }
+            }
+        })
+    </script>
+</body>
+</html>
